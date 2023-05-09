@@ -1,0 +1,29 @@
+#include <stdio.h>
+void generate_subsets(int set[], int subset[], int size, int index) 
+{
+    if (index == size) 
+	{
+        printf("{ ");
+        for (int i = 0; i < size; i++) 
+		{
+            if (subset[i]) 
+			{
+                printf("%d ", set[i]);
+            }
+        }
+        printf("}\n");
+    } else {
+        subset[index] = 0;
+        generate_subsets(set, subset, size, index + 1);
+        subset[index] = 1;
+        generate_subsets(set, subset, size, index + 1);
+    }
+}
+int main() 
+{
+    int set[] = {1, 2, 3};
+    int size = sizeof(set) / sizeof(set[0]);
+    int subset[size];
+    generate_subsets(set, subset, size, 0);
+    return 0;
+}
