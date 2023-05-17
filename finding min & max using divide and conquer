@@ -1,0 +1,60 @@
+#include <stdio.h>
+struct MinMax 
+{
+    int min;
+    int max;
+};
+struct MinMax getMinMax(int arr[], int low, int high) 
+{
+    struct MinMax mm, left_mm, right_mm;
+    int mid;
+    if (low == high) 
+    {
+        mm.min = arr[low];
+        mm.max = arr[low];
+        return mm;
+    }
+    if (high == low + 1) 
+    {
+        if (arr[low] > arr[high]) 
+        {
+            mm.max = arr[low];
+            mm.min = arr[high];
+        } 
+        else 
+        {
+            mm.max = arr[high];
+            mm.min = arr[low];
+        }
+        return mm;
+    }
+    mid = (low + high) / 2;
+    left_mm = getMinMax(arr, low, mid);
+    right_mm = getMinMax(arr, mid + 1, high);
+    if (left_mm.min < right_mm.min) 
+    {
+        mm.min = left_mm.min;
+    } 
+    else 
+    {
+        mm.min = right_mm.min;
+    }
+    if (left_mm.max > right_mm.max) 
+    {
+        mm.max = left_mm.max;
+    } 
+    else 
+    {
+        mm.max = right_mm.max;
+    }
+    return mm;
+}
+int main() 
+{
+    int arr[] = {1, 5, 3, 9, 6, 4};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    struct MinMax mm = getMinMax(arr, 0, n - 1);
+    printf("Minimum element in the array is %d\n", mm.min);
+    printf("Maximum element in the array is %d\n", mm.max);
+    return 0;
+}
